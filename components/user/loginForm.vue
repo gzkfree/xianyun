@@ -2,10 +2,10 @@
   <div>
     <el-form status-icon ref="loginForm" class="logiForm" :model="loginForm" :rules="rules">
       <el-form-item prop="username">
-        <el-input placeholder="用户名/手机" v-model="loginForm.username" ></el-input>
+        <el-input placeholder="用户名/手机" v-model="loginForm.username"></el-input>
       </el-form-item>
       <el-form-item style=" margin-bottom:0;" prop="password">
-        <el-input placeholder="密码" type="password" v-model="loginForm.password" ></el-input>
+        <el-input placeholder="密码" type="password" v-model="loginForm.password"></el-input>
       </el-form-item>
       <el-form-item style="margin-top:0;">
         <a href="#" style="float:right">忘记密码</a>
@@ -35,19 +35,13 @@ export default {
     loginSubmit() {
       this.$refs["loginForm"].validate(valid => {
         if (valid) {
-          this.$axios({
-            url: "/accounts/login",
-            method: "POST",
-            data: this.loginForm
-          }).then(result => {
-              console.log(result.data)
+          console.log(this.$store);
+          this.$store.dispatch("user/login", this.loginForm).then(result => {
             this.$message({
-                message:'登录成功',
-                type:'success'
-            })
-            this.$router.push('/')
-            localStorage.setItem('token',result.data.token)
-          })
+              message: "登录成功",
+              type: "success"
+            });
+          });
         }
       });
     }

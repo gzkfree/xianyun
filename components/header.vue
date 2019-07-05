@@ -13,7 +13,7 @@
           <nuxt-link to='/' >首页</nuxt-link>
           <nuxt-link to='/post'>旅游攻略</nuxt-link>
           <nuxt-link to='/hotel'>酒店</nuxt-link>
-          <nuxt-link to='air'>国内机票</nuxt-link>
+          <nuxt-link to='/air'>国内机票</nuxt-link>
         </el-row>
         <!-- 登录和消息 -->
         <el-row type='flex' class="login" >
@@ -27,7 +27,18 @@
               <el-dropdown-item>消息</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <nuxt-link to='/user/login'>登录 / 注册</nuxt-link>
+           <el-dropdown v-if="$store.state.user.userInfo.token" style="margin-left:30px;">
+            <span class="el-dropdown-link" >
+              <img :src="`${this.$axios.defaults.baseURL}${$store.state.user.userInfo.user.defaultAvatar}`" alt="" style="width:30px;height:30px;vertical-align: middle">
+              {{this.$store.state.user.userInfo.user.nickname}}
+              <i class="el-icon-caret-bottom"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown" >
+              <el-dropdown-item><div>个人中心</div></el-dropdown-item>
+              <el-dropdown-item><div @click="handleClick">退出</div></el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <nuxt-link to='/user/login' v-if="!$store.state.user.userInfo.token">登录 / 注册</nuxt-link>
         </el-row>
       </el-row>
     </div>
@@ -38,7 +49,12 @@ export default {
   data() {
     return {};
   },
-  activated() {}
+  methods:{
+    handleClick(){
+      this.$store.commit('user/clearUSerInfo');
+     this.$message.success("退出成功");
+    }
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -65,6 +81,7 @@ export default {
      .navs{
          justify-content: center;
          flex: 1;
+         
          a{
              flex: 1;
              height: 60px;
@@ -91,7 +108,6 @@ export default {
             color: #409eff;
          }
          }
-        
      }
  }
 }

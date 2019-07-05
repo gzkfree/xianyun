@@ -29,7 +29,6 @@ export default {
   data() {
     return {};
   },
-  activated() {}
 };
 </script>
 <style lang='less' scoped>
