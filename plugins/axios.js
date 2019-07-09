@@ -5,5 +5,9 @@ export default function ({$axios,redirect}){
         if(statusCode===400){
             Message.warning({message})
         }
+        //未登录就跳转到登录页
+        if(statusCode===401||statusCode===403){
+            redirect('/user/login?return=/air/order')
+        }
     })
 }
