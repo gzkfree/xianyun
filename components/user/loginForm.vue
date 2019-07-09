@@ -35,8 +35,10 @@ export default {
     loginSubmit() {
       this.$refs["loginForm"].validate(valid => {
         if (valid) {
-          console.log(this.$store);
           this.$store.dispatch("user/login", this.loginForm).then(result => {
+            if(this.$route.query.return){
+              this.$router.push(this.$route.query.return)
+            }
             this.$message({
               message: "登录成功",
               type: "success"

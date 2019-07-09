@@ -2,13 +2,13 @@
   <div class="container">
     <el-row type="flex" justify="space-between">
       <!-- 订单表单 -->
-      <div class="main">
+      <div class="main" v-if="showAside">
         <orderForm :data="infoData" @setAllPrice="setAllPrice"></orderForm>
       </div>
 
       <!-- 侧边栏 -->
       <div class="aside" v-if="showAside">
-        <orderAside :data="infoData" :allPrice="allPrice"></orderAside>
+        <orderAside :data="infoData" :formdata="formdata"></orderAside>
       </div>
     </el-row>
   </div>
@@ -23,7 +23,7 @@ export default {
       //机票信息
       infoData:{},
       showAside:false,
-      allPrice:""
+      formdata:{}
     };
   },
   components: {
@@ -31,6 +31,7 @@ export default {
     orderAside
   },
   mounted() {
+    //获取座位信息
     const { query } = this.$route;
     this.$axios({
       url: `airs/${query.id}`,
@@ -44,8 +45,8 @@ export default {
     });
   },
   methods:{
-      setAllPrice(price){
-          this.allPrice=price
+      setAllPrice(obj){
+          this.formdata=obj
       }
   }
 };
